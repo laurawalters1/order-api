@@ -1,18 +1,17 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-//WEB
-
-func index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World!")
+func sayHi(context *gin.Context) {
+	context.IndentedJSON(http.StatusOK, "Hey!")
 }
 
 func main() {
-	http.HandleFunc("/", index)
-	fmt.Println("Server starting...")
-	http.ListenAndServe(":3000", nil)
+	router := gin.Default()
+	router.GET("/hi", sayHi)
+	router.Run(":3000")
 }
