@@ -142,6 +142,10 @@ func CalculatePacks(count int) map[int]int {
 		fmt.Println("allPossibleCalculations", allPossibleCalculations)
 		optimalSlice := getOptimalSlice(allPossibleCalculations)
 		fmt.Println(optimalSlice)
+
+		for _, size := range optimalSlice {
+			order[size]++
+		}
 		return order
 	}
 
