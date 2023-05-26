@@ -8,10 +8,10 @@ import (
 
 func recursive(allPossibleCalcs [][]int, count int, packSizes []int, accumulatedSizes []int) []int {
 
-	var sum int
-	for _, valueInt := range accumulatedSizes {
-		sum += valueInt
-	}
+	var sum int = getSum(accumulatedSizes)
+	// for _, valueInt := range accumulatedSizes {
+	// 	sum += valueInt
+	// }
 	// fmt.Println(accumulatedSizes)
 	if sum >= count {
 		// allPossibleCalcs = accumulatedSizes
@@ -80,6 +80,34 @@ func Reverse(input []int) []int {
 	return output
 }
 
+func getSum(arr []int) int {
+	var sum int
+	for _, valueInt := range arr {
+		sum += valueInt
+	}
+	return sum
+}
+
+func getOptimalSlice(arr [][]int) []int {
+	var returnVal []int = arr[0]
+	var optimalArrLen int
+	var optimalArrSum int
+
+	for i, array := range arr {
+		sum := getSum(array)
+		if i == 0 {
+			optimalArrLen = len(array)
+			optimalArrSum = sum
+			returnVal = array
+		} else if sum < optimalArrSum || len(array) < optimalArrLen {
+			optimalArrLen = len(array)
+			optimalArrSum = sum
+			returnVal = array
+		}
+	}
+	return returnVal
+}
+
 func CalculatePacks(count int) map[int]int {
 	order := map[int]int{
 		250:  0,
@@ -112,6 +140,8 @@ func CalculatePacks(count int) map[int]int {
 
 		}
 		fmt.Println("allPossibleCalculations", allPossibleCalculations)
+		optimalSlice := getOptimalSlice(allPossibleCalculations)
+		fmt.Println(optimalSlice)
 		return order
 	}
 
