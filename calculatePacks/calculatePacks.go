@@ -2,80 +2,67 @@ package calculatepacks
 
 import (
 	"fmt"
+	"math"
 	"sort"
 )
 
 func recursive(innerSize int, packSizes []int, sizes []int, count int, packSizesNeeded [][]int) {
 
-	var sumOfSizes int
-	for _, size := range sizes {
-		sumOfSizes += size
-	}
-	fmt.Println("sumOfSizes", sumOfSizes)
-	if innerSize+sumOfSizes >= count {
-		var newSizes = []int{}
-		sizes = append(sizes, innerSize)
-		newSizes = append(newSizes, sizes...)
-		fmt.Println("newSizes", newSizes)
-		packSizesNeeded = append(packSizesNeeded, newSizes)
-		fmt.Println("packSizesNeeded", packSizesNeeded)
-
-	} else {
-		// packSizesNeeded = append(packSizesNeeded, make([]int, sizes, innerSize))
-		var newSizes = []int{}
-		sizes = append(sizes, innerSize)
-		newSizes = append(newSizes, sizes...)
-		recursive(innerSize, packSizes, newSizes, count, packSizesNeeded)
-	}
-
 }
 
-func CalculatePacks(count int) map[int]int {
-	order := map[int]int{
-		250:  1,
-		500:  0,
-		1000: 0,
-		2000: 0,
-		5000: 0,
-	}
-
+func orderPackSizes(order map[int]int) []int {
 	// CREATE ORDERED SLICE OF PACKSIZES
 	packSizes := make([]int, 0, len(order))
 	for size := range order {
 		packSizes = append(packSizes, size)
 	}
 	sort.Ints(packSizes)
+	return packSizes
+}
 
-	packSizesNeeded := make([][]int, 0, len(order))
-	// fmt.Println("Pack sizes needed", packSizesNeeded)
-
+func getNumberRequiredForEachSize(packSizes []int, count int) map[int]float64 {
+	var requiredNums = map[int]float64{}
 	for _, size := range packSizes {
-		// Start at first el (250)
-		if size < count {
-			sizes := []int{size}
-			// fmt.Println("sizes", sizes)
-			fmt.Println("packSizes", packSizes)
-			fmt.Println("sizes", sizes)
-			fmt.Println("count", count)
-			fmt.Println("packSizesNeeded", packSizesNeeded)
-			for _, innerSize := range packSizes {
-				recursive(innerSize, packSizes, sizes, count, packSizesNeeded)
-			}
-		} else if size > count {
-			appendItem := []int{size}
-			packSizesNeeded = append(packSizesNeeded, appendItem)
-			break
+
+		requiredNums[size] = math.Ceil(float64(count) / float64(size))
+		// fmt.Printf("%T", size)
+	}
+	return requiredNums
+}
+
+func allValuesEqualOne(numsMap map[int]float64) bool {
+	returnVal := true
+	for _, num := range numsMap {
+		if num != 1 {
+			returnVal = false
 		}
+		// fmt.Printf("%T", size)
+	}
+	return returnVal
+}
 
-		// If greater, return
-
-		// If not greater, start nested loop
-
-		// Start at first el
-
-		// If outer loop el + inner loop el > return
+func CalculatePacks(count int) map[int]int {
+	order := map[int]int{
+		250:  0,
+		500:  0,
+		1000: 0,
+		2000: 0,
+		5000: 0,
 	}
 
-	fmt.Println(packSizesNeeded)
-	return order
+	// PUT PACK SIZES IN ORDER
+	packSizes := orderPackSizes(order)
+
+	// GET HOW MANY OF EACH SIZE WOULD BE REQUIRED IF YOU COULD ONLY TAKE ONE SIZE
+	var requiredNumsForEachSize = getNumberRequiredForEachSize(packSizes, count)
+	fmt.Println(requiredNumsForEachSize)
+	if allValuesEqualOne(requiredNumsForEachSize) {
+		order[packSizes[0]]++
+		return order
+	} else {
+		return order
+	}
+
+	// fmt.Println(requiredNumsForEachSize)
+
 }

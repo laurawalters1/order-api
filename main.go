@@ -24,7 +24,7 @@ func placeOrder(context *gin.Context) {
 }
 
 func main() {
-	calculatepacks.CalculatePacks(750)
+	calculatepacks.CalculatePacks(12001)
 	router := gin.Default()
 	router.GET("/hi", sayHi)
 	router.GET("/place-order", placeOrder)
