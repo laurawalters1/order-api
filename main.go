@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,14 +18,15 @@ func sayHi(context *gin.Context) {
 
 func placeOrder(context *gin.Context) {
 	var order Order
-
 	context.BindJSON(&order)
+	fmt.Println("Count", order.Count)
+	var totals = calculatepacks.CalculatePacks(int(order.Count))
 
-	context.IndentedJSON(http.StatusOK, order)
+	context.IndentedJSON(http.StatusOK, totals)
 }
 
 func main() {
-	calculatepacks.CalculatePacks(1)
+
 	router := gin.Default()
 	router.GET("/hi", sayHi)
 	router.GET("/place-order", placeOrder)

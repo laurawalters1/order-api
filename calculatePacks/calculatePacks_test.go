@@ -6,7 +6,7 @@ import (
 )
 
 func TestCalculatePacks1(t *testing.T) {
-	expected := map[int32]int{
+	expected := map[int]int{
 		250:  1,
 		500:  0,
 		1000: 0,
@@ -23,7 +23,7 @@ func TestCalculatePacks1(t *testing.T) {
 }
 
 func TestCalculatePacks250(t *testing.T) {
-	expected := map[int32]int{
+	expected := map[int]int{
 		250:  1,
 		500:  0,
 		1000: 0,
@@ -40,7 +40,7 @@ func TestCalculatePacks250(t *testing.T) {
 }
 
 func TestCalculatePacks251(t *testing.T) {
-	expected := map[int32]int{
+	expected := map[int]int{
 		250:  0,
 		500:  1,
 		1000: 0,
@@ -48,7 +48,7 @@ func TestCalculatePacks251(t *testing.T) {
 		5000: 0,
 	}
 
-	result := CalculatePacks(1)
+	result := CalculatePacks(251)
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("\033[31mFAILED - Expected %v GOT %v\033[0m", expected, result)
 	} else {
@@ -57,7 +57,7 @@ func TestCalculatePacks251(t *testing.T) {
 }
 
 func TestCalculatePacks501(t *testing.T) {
-	expected := map[int32]int{
+	expected := map[int]int{
 		250:  1,
 		500:  1,
 		1000: 0,
@@ -65,7 +65,7 @@ func TestCalculatePacks501(t *testing.T) {
 		5000: 0,
 	}
 
-	result := CalculatePacks(1)
+	result := CalculatePacks(501)
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("\033[31mFAILED - Expected %v GOT %v\033[0m", expected, result)
 	} else {
@@ -74,7 +74,7 @@ func TestCalculatePacks501(t *testing.T) {
 }
 
 func TestCalculatePacks12001(t *testing.T) {
-	expected := map[int32]int{
+	expected := map[int]int{
 		250:  1,
 		500:  0,
 		1000: 0,
@@ -82,7 +82,7 @@ func TestCalculatePacks12001(t *testing.T) {
 		5000: 2,
 	}
 
-	result := CalculatePacks(1)
+	result := CalculatePacks(12001)
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("\033[31mFAILED - Expected %v GOT %v\033[0m", expected, result)
 	} else {
