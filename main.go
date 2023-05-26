@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	// "github.com/laurawalters1/order-api/calculatePacks"
+	"github.com/laurawalters1/order-api/calculatepacks"
 )
 
 type Order struct {
@@ -20,9 +20,9 @@ func placeOrder(context *gin.Context) {
 	var order Order
 	context.BindJSON(&order)
 	fmt.Println("Count", order.Count)
-	// var totals = calculatePacks.CalculatePacks(int(order.Count))
+	var totals = calculatepacks.CalculatePacks(int(order.Count))
 
-	context.IndentedJSON(http.StatusOK, "hello")
+	context.IndentedJSON(http.StatusOK, totals)
 }
 
 func main() {
