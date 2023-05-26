@@ -2,10 +2,11 @@ package calculatepacks
 
 import (
 	"fmt"
+	"sort"
 )
 
-func CalculatePacks(count int32) map[int32]int {
-	order := map[int32]int{
+func CalculatePacks(count int) map[int]int {
+	order := map[int]int{
 		250:  1,
 		500:  0,
 		1000: 0,
@@ -13,8 +14,37 @@ func CalculatePacks(count int32) map[int32]int {
 		5000: 0,
 	}
 
-	for key, element := range order {
-		fmt.Println("Key:", key, "=>", "Element:", element)
+	// CREATE ORDERED SLICE OF PACKSIZES
+	packSizes := make([]int, 0, len(order))
+	for size := range order {
+		packSizes = append(packSizes, size)
 	}
+	sort.Ints(packSizes)
+	fmt.Println(packSizes)
+
+	packSizesNeeded := make([][]int, 0, len(order))
+
+	for _, size := range packSizes {
+		// Start at first el (250)
+		if !(size > count) {
+			for _, innerSize := range packSizes {
+				if innerSize+size > count {
+					packSizesNeeded = append(packSizesNeeded, make([]int, size, innerSize))
+				}
+			}
+		} else if size > count {
+			packSizesNeeded = append(packSizesNeeded, make([]int, size))
+			break
+		}
+
+		// If greater, return
+
+		// If not greater, start nested loop
+
+		// Start at first el
+
+		// If outer loop el + inner loop el > return
+	}
+
 	return order
 }
