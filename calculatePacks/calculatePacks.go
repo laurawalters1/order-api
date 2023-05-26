@@ -7,6 +7,7 @@ import (
 )
 
 func recursive(allPossibleCalcs [][]int, count int, packSizes []int, accumulatedSizes []int) []int {
+
 	var sum int
 	for _, valueInt := range accumulatedSizes {
 		sum += valueInt
@@ -17,12 +18,25 @@ func recursive(allPossibleCalcs [][]int, count int, packSizes []int, accumulated
 		// fmt.Println(allPossibleCalcs)
 		return accumulatedSizes
 	} else {
-		for _, size := range packSizes {
-			accumulatedSizes = append(accumulatedSizes, size)
-			return recursive(allPossibleCalcs, count, packSizes, accumulatedSizes)
+		for i, size := range packSizes {
+			if sum+size >= count {
+				accumulatedSizes = append(accumulatedSizes, size)
+				return accumulatedSizes
+			} else if i == len(packSizes)-1 {
+				accumulatedSizes = append(accumulatedSizes, size)
+				return recursive(allPossibleCalcs, count, packSizes, accumulatedSizes)
+			}
+			// else {
+			// 	accumulatedSizes = append(accumulatedSizes, size)
+			// 	return recursive(allPossibleCalcs, count, packSizes, accumulatedSizes)
+			// }
+			// accumulatedSizes = append(accumulatedSizes, size)
+
 		}
+		fmt.Println(accumulatedSizes)
+		return accumulatedSizes
 	}
-	return accumulatedSizes
+
 }
 
 func orderPackSizes(order map[int]int) []int {
@@ -56,6 +70,16 @@ func allValuesEqualOne(numsMap map[int]float64) bool {
 	return returnVal
 }
 
+func Reverse(input []int) []int {
+	var output []int
+
+	for i := len(input) - 1; i >= 0; i-- {
+		output = append(output, input[i])
+	}
+
+	return output
+}
+
 func CalculatePacks(count int) map[int]int {
 	order := map[int]int{
 		250:  0,
@@ -68,6 +92,8 @@ func CalculatePacks(count int) map[int]int {
 	// PUT PACK SIZES IN ORDER
 	packSizes := orderPackSizes(order)
 
+	reversePackSizes := Reverse(packSizes)
+
 	// GET HOW MANY OF EACH SIZE WOULD BE REQUIRED IF YOU COULD ONLY TAKE ONE SIZE
 	var requiredNumsForEachSize = getNumberRequiredForEachSize(packSizes, count)
 
@@ -78,7 +104,7 @@ func CalculatePacks(count int) map[int]int {
 		order[packSizes[0]]++
 		return order
 	} else {
-		for _, size := range packSizes {
+		for _, size := range reversePackSizes {
 			acc := []int{size}
 			var allCalcs []int = recursive(allPossibleCalculations, count, packSizes, acc)
 			allPossibleCalculations = append(allPossibleCalculations, allCalcs)
