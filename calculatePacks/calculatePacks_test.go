@@ -14,7 +14,7 @@ func TestCalculatePacks1(t *testing.T) {
 		5000: 0,
 	}
 
-	result := calculatepacks(1)
+	result := CalculatePacks(1)
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("\033[31mFAILED - Expected %%v: %v GOT %%v: %v\033[0m", expected, result)
 	} else {
@@ -31,7 +31,7 @@ func TestCalculatePacks250(t *testing.T) {
 		5000: 0,
 	}
 
-	result := calculatepacks(250)
+	result := CalculatePacks(250)
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("\033[31mFAILED - Expected %v GOT %v\033[0m", expected, result)
 	} else {
@@ -48,7 +48,7 @@ func TestCalculatePacks251(t *testing.T) {
 		5000: 0,
 	}
 
-	result := calculatepacks(1)
+	result := CalculatePacks(1)
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("\033[31mFAILED - Expected %v GOT %v\033[0m", expected, result)
 	} else {
@@ -65,7 +65,7 @@ func TestCalculatePacks501(t *testing.T) {
 		5000: 0,
 	}
 
-	result := calculatepacks(1)
+	result := CalculatePacks(1)
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("\033[31mFAILED - Expected %v GOT %v\033[0m", expected, result)
 	} else {
@@ -82,7 +82,7 @@ func TestCalculatePacks12001(t *testing.T) {
 		5000: 2,
 	}
 
-	result := calculatepacks(1)
+	result := CalculatePacks(1)
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("\033[31mFAILED - Expected %v GOT %v\033[0m", expected, result)
 	} else {

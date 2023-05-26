@@ -1,6 +1,10 @@
 package calculatepacks
 
-func calculatepacks(count int32) map[int32]int {
+import (
+	"fmt"
+)
+
+func CalculatePacks(count int32) map[int32]int {
 	order := map[int32]int{
 		250:  1,
 		500:  0,
@@ -9,5 +13,8 @@ func calculatepacks(count int32) map[int32]int {
 		5000: 0,
 	}
 
+	for key, element := range order {
+		fmt.Println("Key:", key, "=>", "Element:", element)
+	}
 	return order
 }
