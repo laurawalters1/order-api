@@ -9,13 +9,7 @@ import (
 func recursive(allPossibleCalcs [][]int, count int, packSizes []int, accumulatedSizes []int) []int {
 
 	var sum int = getSum(accumulatedSizes)
-	// for _, valueInt := range accumulatedSizes {
-	// 	sum += valueInt
-	// }
-	// fmt.Println(accumulatedSizes)
 	if sum >= count {
-		// allPossibleCalcs = accumulatedSizes
-		// fmt.Println(allPossibleCalcs)
 		return accumulatedSizes
 	} else {
 		for i, size := range packSizes {
@@ -26,12 +20,6 @@ func recursive(allPossibleCalcs [][]int, count int, packSizes []int, accumulated
 				accumulatedSizes = append(accumulatedSizes, size)
 				return recursive(allPossibleCalcs, count, packSizes, accumulatedSizes)
 			}
-			// else {
-			// 	accumulatedSizes = append(accumulatedSizes, size)
-			// 	return recursive(allPossibleCalcs, count, packSizes, accumulatedSizes)
-			// }
-			// accumulatedSizes = append(accumulatedSizes, size)
-
 		}
 		fmt.Println(accumulatedSizes)
 		return accumulatedSizes
@@ -52,9 +40,7 @@ func orderPackSizes(order map[int]int) []int {
 func getNumberRequiredForEachSize(packSizes []int, count int) map[int]float64 {
 	var requiredNums = map[int]float64{}
 	for _, size := range packSizes {
-
 		requiredNums[size] = math.Ceil(float64(count) / float64(size))
-		// fmt.Printf("%T", size)
 	}
 	return requiredNums
 }
@@ -65,7 +51,6 @@ func allValuesEqualOne(numsMap map[int]float64) bool {
 		if num != 1 {
 			returnVal = false
 		}
-		// fmt.Printf("%T", size)
 	}
 	return returnVal
 }
