@@ -33,7 +33,7 @@ func main() {
 	router.GET("/place-order", placeOrder)
 	router.POST("/place-order", placeOrder)
 	router.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"https://localhost:3000.com"},
+		AllowOrigins: []string{"http://localhost:3000.com"},
 		AllowMethods: []string{"POST", "GET"},
 	}))
 	router.Run(":3000")
