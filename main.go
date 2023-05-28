@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/laurawalters1/order-api/calculatepacks"
+	cors "github.com/rs/cors/wrapper/gin"
 )
 
 type Order struct {
@@ -45,7 +46,7 @@ func CORSMiddleware() gin.HandlerFunc {
 func main() {
 
 	router := gin.Default()
-	router.Use(CORSMiddleware())
+	router.Use(cors.Default())
 	router.GET("/hi", sayHi)
 	router.GET("/place-order", placeOrder)
 	router.POST("/place-order", placeOrder)
