@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/laurawalters1/order-api/calculatepacks"
 )
@@ -31,5 +32,9 @@ func main() {
 	router.GET("/hi", sayHi)
 	router.GET("/place-order", placeOrder)
 	router.POST("/place-order", placeOrder)
+	router.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"https://localhost:3000.com"},
+		AllowMethods: []string{"POST", "GET"},
+	}))
 	router.Run(":3000")
 }
