@@ -30,7 +30,7 @@ func CORSMiddleware() gin.HandlerFunc {
 
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Credentials", "true")
-		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With, Access-Control-Allow-Origin")
 		c.Header("Access-Control-Allow-Methods", "POST,HEAD,PATCH, OPTIONS, GET, PUT")
 
 		if c.Request.Method == "OPTIONS" {
@@ -45,9 +45,9 @@ func CORSMiddleware() gin.HandlerFunc {
 func main() {
 
 	router := gin.Default()
+	router.Use(CORSMiddleware())
 	router.GET("/hi", sayHi)
 	router.GET("/place-order", placeOrder)
 	router.POST("/place-order", placeOrder)
-	router.Use(CORSMiddleware())
 	router.Run(":3000")
 }
