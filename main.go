@@ -30,5 +30,6 @@ func main() {
 	router := gin.Default()
 	router.GET("/hi", sayHi)
 	router.GET("/place-order", placeOrder)
+	router.POST("/place-order", placeOrder)
 	router.Run(":3000")
 }
