@@ -4,14 +4,21 @@ import (
 	"database/sql"
 	"fmt"
 
+	"os"
+
 	_ "github.com/go-sql-driver/mysql"
+
+	"github.com/joho/godotenv"
 )
 
 func Connection() {
-	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/packsDb")
+	err := godotenv.Load()
+
+	db, err := sql.Open(os.Getenv("DBCONNTYPE"), os.Getenv("DBCONNNAME"))
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
 	fmt.Println("Success!")
+
 }
