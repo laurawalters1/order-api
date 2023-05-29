@@ -1,7 +1,7 @@
 package calculatepacks
 
 import (
-	"fmt"
+	// "fmt"
 	"math"
 	"sort"
 )
@@ -107,28 +107,21 @@ func CalculatePacks(count int) map[int]int {
 
 	reversePackSizes := Reverse(packSizes)
 
-	// GET HOW MANY OF EACH SIZE WOULD BE REQUIRED IF YOU COULD ONLY TAKE ONE SIZE
-	var requiredNumsForEachSize = getNumberRequiredForEachSize(packSizes, count)
-
 	// This variable will store arrays which contain all the number combinations that fulfill the order
 	var allPossibleCalculations = [][]int{}
-	if allValuesEqualOne(requiredNumsForEachSize) {
-		order[packSizes[0]]++
-		return order
-	} else {
-		for _, size := range reversePackSizes {
-			acc := []int{size}
-			var allCalcs []int = recursive(allPossibleCalculations, count, packSizes, acc)
-			allPossibleCalculations = append(allPossibleCalculations, allCalcs)
 
-		}
-		optimalSlice := getOptimalSlice(allPossibleCalculations)
-		fmt.Println(optimalSlice)
+	for _, size := range reversePackSizes {
+		acc := []int{size}
+		var allCalcs []int = recursive(allPossibleCalculations, count, packSizes, acc)
+		allPossibleCalculations = append(allPossibleCalculations, allCalcs)
 
-		for _, size := range optimalSlice {
-			order[size]++
-		}
-		return order
 	}
+	optimalSlice := getOptimalSlice(allPossibleCalculations)
+
+	for _, size := range optimalSlice {
+		order[size]++
+	}
+	return order
+	// }
 
 }
