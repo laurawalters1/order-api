@@ -11,14 +11,15 @@ func recursive(allPossibleCalcs [][]int, count int, packSizes []int, accumulated
 	} else {
 
 		for i, size := range packSizes {
-			var prevNumsSum = getSum(packSizes[0 : i+1])
+			var prevNumsSum = getSum(packSizes[0 : i+1]) // returns sum of previous and current number in the packsizes array
+			// BREAKING CONDITION
 			if sum+size >= count {
 				accumulatedSizes = append(accumulatedSizes, size)
 				return accumulatedSizes
-			} else if prevNumsSum+sum >= count {
+			} else if prevNumsSum+sum >= count { // if previous & curr number + sum >= count current number can be added as we know we won't need a larger number
 				accumulatedSizes = append(accumulatedSizes, size)
 				return recursive(allPossibleCalcs, count, packSizes, accumulatedSizes)
-			} else if i == len(packSizes)-1 {
+			} else if i == len(packSizes)-1 { // if current value is the largest packsize and count has not been met, we must add it to the array and loop back round
 				accumulatedSizes = append(accumulatedSizes, size)
 				return recursive(allPossibleCalcs, count, packSizes, accumulatedSizes)
 			}
