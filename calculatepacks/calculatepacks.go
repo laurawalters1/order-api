@@ -1,8 +1,6 @@
 package calculatepacks
 
 import (
-	// "fmt"
-	"math"
 	"sort"
 )
 
@@ -13,14 +11,15 @@ func recursive(allPossibleCalcs [][]int, count int, packSizes []int, accumulated
 	} else {
 
 		for i, size := range packSizes {
-			var prevNumsSum = getSum(packSizes[0 : i+1])
+			var prevNumsSum = getSum(packSizes[0 : i+1]) // returns sum of previous and current number in the packsizes array
+			// BREAKING CONDITION
 			if sum+size >= count {
 				accumulatedSizes = append(accumulatedSizes, size)
 				return accumulatedSizes
-			} else if prevNumsSum+sum >= count {
+			} else if prevNumsSum+sum >= count { // if previous & curr number + sum >= count current number can be added as we know we won't need a larger number
 				accumulatedSizes = append(accumulatedSizes, size)
 				return recursive(allPossibleCalcs, count, packSizes, accumulatedSizes)
-			} else if i == len(packSizes)-1 {
+			} else if i == len(packSizes)-1 { // if current value is the largest packsize and count has not been met, we must add it to the array and loop back round
 				accumulatedSizes = append(accumulatedSizes, size)
 				return recursive(allPossibleCalcs, count, packSizes, accumulatedSizes)
 			}
@@ -38,24 +37,6 @@ func orderPackSizes(order map[int]int) []int {
 	}
 	sort.Ints(packSizes)
 	return packSizes
-}
-
-func getNumberRequiredForEachSize(packSizes []int, count int) map[int]float64 {
-	var requiredNums = map[int]float64{}
-	for _, size := range packSizes {
-		requiredNums[size] = math.Ceil(float64(count) / float64(size))
-	}
-	return requiredNums
-}
-
-func allValuesEqualOne(numsMap map[int]float64) bool {
-	returnVal := true
-	for _, num := range numsMap {
-		if num != 1 {
-			returnVal = false
-		}
-	}
-	return returnVal
 }
 
 func Reverse(input []int) []int {
@@ -122,6 +103,5 @@ func CalculatePacks(count int) map[int]int {
 		order[size]++
 	}
 	return order
-	// }
 
 }
