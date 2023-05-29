@@ -1,8 +1,6 @@
 package calculatepacks
 
 import (
-	// "fmt"
-	"math"
 	"sort"
 )
 
@@ -38,24 +36,6 @@ func orderPackSizes(order map[int]int) []int {
 	}
 	sort.Ints(packSizes)
 	return packSizes
-}
-
-func getNumberRequiredForEachSize(packSizes []int, count int) map[int]float64 {
-	var requiredNums = map[int]float64{}
-	for _, size := range packSizes {
-		requiredNums[size] = math.Ceil(float64(count) / float64(size))
-	}
-	return requiredNums
-}
-
-func allValuesEqualOne(numsMap map[int]float64) bool {
-	returnVal := true
-	for _, num := range numsMap {
-		if num != 1 {
-			returnVal = false
-		}
-	}
-	return returnVal
 }
 
 func Reverse(input []int) []int {
@@ -122,6 +102,5 @@ func CalculatePacks(count int) map[int]int {
 		order[size]++
 	}
 	return order
-	// }
 
 }
