@@ -7,21 +7,24 @@ import (
 )
 
 func recursive(allPossibleCalcs [][]int, count int, packSizes []int, accumulatedSizes []int) []int {
-
 	var sum int = getSum(accumulatedSizes)
 	if sum >= count {
 		return accumulatedSizes
 	} else {
+
 		for i, size := range packSizes {
+			var prevNumsSum = getSum(packSizes[0 : i+1])
 			if sum+size >= count {
 				accumulatedSizes = append(accumulatedSizes, size)
 				return accumulatedSizes
+			} else if prevNumsSum+sum >= count {
+				accumulatedSizes = append(accumulatedSizes, size)
+				return recursive(allPossibleCalcs, count, packSizes, accumulatedSizes)
 			} else if i == len(packSizes)-1 {
 				accumulatedSizes = append(accumulatedSizes, size)
 				return recursive(allPossibleCalcs, count, packSizes, accumulatedSizes)
 			}
 		}
-		fmt.Println(accumulatedSizes)
 		return accumulatedSizes
 	}
 
@@ -75,17 +78,14 @@ func getSum(arr []int) int {
 
 func getOptimalSlice(arr [][]int) []int {
 	var returnVal []int = arr[0]
-	var optimalArrLen int
 	var optimalArrSum int
 
 	for i, array := range arr {
 		sum := getSum(array)
 		if i == 0 {
-			optimalArrLen = len(array)
 			optimalArrSum = sum
 			returnVal = array
-		} else if sum < optimalArrSum || len(array) < optimalArrLen {
-			optimalArrLen = len(array)
+		} else if sum < optimalArrSum {
 			optimalArrSum = sum
 			returnVal = array
 		}
@@ -112,7 +112,6 @@ func CalculatePacks(count int) map[int]int {
 
 	// This variable will store arrays which contain all the number combinations that fulfill the order
 	var allPossibleCalculations = [][]int{}
-	fmt.Println(requiredNumsForEachSize)
 	if allValuesEqualOne(requiredNumsForEachSize) {
 		order[packSizes[0]]++
 		return order
@@ -121,10 +120,8 @@ func CalculatePacks(count int) map[int]int {
 			acc := []int{size}
 			var allCalcs []int = recursive(allPossibleCalculations, count, packSizes, acc)
 			allPossibleCalculations = append(allPossibleCalculations, allCalcs)
-			fmt.Println(allCalcs)
 
 		}
-		fmt.Println("allPossibleCalculations", allPossibleCalculations)
 		optimalSlice := getOptimalSlice(allPossibleCalculations)
 		fmt.Println(optimalSlice)
 
