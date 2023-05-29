@@ -9,13 +9,14 @@ The calculation prioritises item numbers over pack numbers, meaning that a great
 
 Example test cases are as follows:
 
-| Items ordered | Correct number of packs     | Incorrect number of packs |
-| ------------- | --------------------------- | ------------------------- |
-| 1             | 2 x 250                     | 1 x 500                   |
-| 250           | 1 x 250                     | 1 x 500                   |
-| 251           | 1 x 500                     | 2 x 250                   |
-| 501           | 1 x 500, 1 x 250            | 1 x 1000 OR 3 x 250       |
-| 12001         | 2 x 5000, 1 x 2000, 1 x 250 | 3 x 5000                  |
+| Items ordered | Correct number of packs                | Incorrect number of packs |
+| ------------- | -------------------------------------- | ------------------------- |
+| 1             | 2 x 250                                | 1 x 500                   |
+| 250           | 1 x 250                                | 1 x 500                   |
+| 251           | 1 x 500                                | 2 x 250                   |
+| 501           | 1 x 500, 1 x 250                       | 1 x 1000 OR 3 x 250       |
+| 8500          | 1 x 5000, 1 x 2000, 1 x 1000 , 1 x 500 | 1 x 5000, 2 x 2000        |
+| 12001         | 2 x 5000, 1 x 2000, 1 x 250            | 3 x 5000                  |
 
 ## Deployed Application
 
