@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,14 +11,9 @@ type Order struct {
 	Count int32 `json:"count"`
 }
 
-func sayHi(context *gin.Context) {
-	context.IndentedJSON(http.StatusOK, "Hey!")
-}
-
 func placeOrder(context *gin.Context) {
 	var order Order
 	context.BindJSON(&order)
-	fmt.Println("Count", order.Count)
 	var totals = calculatepacks.CalculatePacks(int(order.Count))
 
 	context.IndentedJSON(http.StatusOK, totals)
@@ -46,8 +40,6 @@ func main() {
 
 	router := gin.Default()
 	router.Use(CORSMiddleware())
-	router.GET("/hi", sayHi)
-	router.GET("/place-order", placeOrder)
 	router.POST("/place-order", placeOrder)
 	router.Run(":3000")
 }

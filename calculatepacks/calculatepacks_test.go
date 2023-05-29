@@ -73,6 +73,23 @@ func TestCalculatePacks501(t *testing.T) {
 	}
 }
 
+func TestCalculatePacks8500(t *testing.T) {
+	expected := map[int]int{
+		250:  0,
+		500:  1,
+		1000: 1,
+		2000: 1,
+		5000: 1,
+	}
+
+	result := CalculatePacks(8500)
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("\033[31mFAILED - Expected %v GOT %v\033[0m", expected, result)
+	} else {
+		t.Logf("\033[32mPASSED - Expected %v GOT %v\033[0m", expected, result)
+	}
+}
+
 func TestCalculatePacks12001(t *testing.T) {
 	expected := map[int]int{
 		250:  1,
