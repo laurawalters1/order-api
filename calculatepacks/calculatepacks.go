@@ -61,15 +61,15 @@ func CalculatePacks(count int) map[int]int {
 	reversePackSizes := utils.Reverse(packSizes)
 
 	// This variable will store arrays which contain all the number combinations that fulfill the order
-	var allPossibleCalculations = [][]int{}
+	var allCalculations = [][]int{}
 
 	for _, size := range reversePackSizes {
 		acc := []int{size}
-		var allCalcs []int = recursive(count, packSizes, acc)
-		allPossibleCalculations = append(allPossibleCalculations, allCalcs)
+		var calculation []int = recursive(count, packSizes, acc)
+		allCalculations = append(allCalculations, calculation)
 
 	}
-	optimalSlice := getOptimalSlice(allPossibleCalculations)
+	optimalSlice := getOptimalSlice(allCalculations)
 
 	for _, size := range optimalSlice {
 		order[size]++
