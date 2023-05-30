@@ -4,7 +4,7 @@ import (
 	"sort"
 )
 
-func recursive(allPossibleCalcs [][]int, count int, packSizes []int, accumulatedSizes []int) []int {
+func recursive(count int, packSizes []int, accumulatedSizes []int) []int {
 	var sum int = getSum(accumulatedSizes)
 	if sum >= count {
 		return accumulatedSizes
@@ -18,10 +18,10 @@ func recursive(allPossibleCalcs [][]int, count int, packSizes []int, accumulated
 				return accumulatedSizes
 			} else if prevNumsSum+sum >= count { // if previous & curr number + sum >= count current number can be added as we know we won't need a larger number
 				accumulatedSizes = append(accumulatedSizes, size)
-				return recursive(allPossibleCalcs, count, packSizes, accumulatedSizes)
+				return recursive(count, packSizes, accumulatedSizes)
 			} else if i == len(packSizes)-1 { // if current value is the largest packsize and count has not been met, we must add it to the array and loop back round
 				accumulatedSizes = append(accumulatedSizes, size)
-				return recursive(allPossibleCalcs, count, packSizes, accumulatedSizes)
+				return recursive(count, packSizes, accumulatedSizes)
 			}
 		}
 		return accumulatedSizes
@@ -93,7 +93,7 @@ func CalculatePacks(count int) map[int]int {
 
 	for _, size := range reversePackSizes {
 		acc := []int{size}
-		var allCalcs []int = recursive(allPossibleCalculations, count, packSizes, acc)
+		var allCalcs []int = recursive( count, packSizes, acc)
 		allPossibleCalculations = append(allPossibleCalculations, allCalcs)
 
 	}
