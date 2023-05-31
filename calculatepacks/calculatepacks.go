@@ -24,6 +24,15 @@ func recursive(count int, packSizes []int, accumulatedSizes []int) []int {
 				return recursive(count, packSizes, accumulatedSizes)
 			}
 		}
+
+		// Could check if the target value is at least *currentVal* less than accumulatedSizes + *nextVal*, if it is, add x *currentVal* to meet the target
+		// EXAMPLE:
+		// targetVal = 249
+		// currVal = 50
+		// nextVal = 500
+		// if ((nextVal - currVal) + sumVal ) >= targetVal {
+		// x = (targetVal - sumVal) / currVal -- Then add x number of currVals to the accumulatedSizes array and return
+		// }
 		return accumulatedSizes
 	}
 
