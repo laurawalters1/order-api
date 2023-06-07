@@ -1,6 +1,8 @@
 package calculatepacks
 
 import (
+	"math"
+
 	"github.com/laurawalters1/order-api/utils"
 )
 
@@ -12,6 +14,7 @@ func recursive(count int, packSizes []int, accumulatedSizes []int) []int {
 
 		for i, size := range packSizes {
 			var prevNumsSum = utils.GetSum(packSizes[0 : i+1]) // returns sum of previous and current number in the packsizes array
+
 			// BREAKING CONDITION
 			if sum+size >= count {
 				accumulatedSizes = append(accumulatedSizes, size)
@@ -22,6 +25,12 @@ func recursive(count int, packSizes []int, accumulatedSizes []int) []int {
 			} else if i == len(packSizes)-1 { // if current value is the largest packsize and count has not been met, we must add it to the array and loop back round
 				accumulatedSizes = append(accumulatedSizes, size)
 				return recursive(count, packSizes, accumulatedSizes)
+			} else if (utils.GetSum(packSizes[i+1:i+2]))-size >= count {
+				var numNeeded = int(math.Ceil(float64(count-prevNumsSum) / float64(size)))
+				for y := 0; y < numNeeded; y++ {
+					accumulatedSizes = append(accumulatedSizes, size)
+				}
+				return accumulatedSizes
 			}
 		}
 
@@ -57,7 +66,7 @@ func getOptimalSlice(arr [][]int) []int {
 
 func CalculatePacks(count int) map[int]int {
 	order := map[int]int{
-		250:  0,
+		250: 0,
 		500:  0,
 		1000: 0,
 		2000: 0,
