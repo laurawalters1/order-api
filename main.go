@@ -1,7 +1,12 @@
 package main
 
 import (
+	"database/sql"
+	"fmt"
+	"log"
 	"net/http"
+
+	"github.com/go-sql-driver/mysql"
 
 	"github.com/gin-gonic/gin"
 	"github.com/laurawalters1/order-api/calculatepacks"
@@ -36,7 +41,29 @@ func CORSMiddleware() gin.HandlerFunc {
 	}
 }
 
+var db *sql.DB
+
 func main() {
+
+	cfg := mysql.Config{
+		User:   "root",
+		Passwd: "",
+		Net:    "tcp",
+		Addr:   "127.0.0.1:3306",
+		DBName: "packsDb",
+	}
+	// Get a database handle.
+	var err error
+	db, err = sql.Open("mysql", cfg.FormatDSN())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	pingErr := db.Ping()
+	if pingErr != nil {
+		log.Fatal(pingErr)
+	}
+	fmt.Println("Connected!")
 
 	router := gin.Default()
 	router.Use(CORSMiddleware())
