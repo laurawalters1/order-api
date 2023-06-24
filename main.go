@@ -1,15 +1,13 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
-	"log"
 	"net/http"
 
-	"github.com/go-sql-driver/mysql"
+	"gorm.io/driver/mysql"
 
 	"github.com/gin-gonic/gin"
 	"github.com/laurawalters1/order-api/calculatepacks"
+	"gorm.io/gorm"
 )
 
 type Order struct {
@@ -41,32 +39,40 @@ func CORSMiddleware() gin.HandlerFunc {
 	}
 }
 
-var db *sql.DB
+// var db *sql.DB
+
+type PackSize struct {
+	gorm.Model
+	Size int `json:"size"`
+}
 
 func main() {
 
-	cfg := mysql.Config{
-		User:   "root",
-		Passwd: "",
-		Net:    "tcp",
-		Addr:   "127.0.0.1:3306",
-		DBName: "packsDb",
-	}
-	// Get a database handle.
-	var err error
-	db, err = sql.Open("mysql", cfg.FormatDSN())
+	dsn := "root:@tcp(127.0.0.1:3306)/packsDb?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
-	pingErr := db.Ping()
-	if pingErr != nil {
-		log.Fatal(pingErr)
+	addPackSize := func(context *gin.Context) {
+		var packsize PackSize
+		context.BindJSON(&packsize)
+		db.Create(&packsize)
 	}
-	fmt.Println("Connected!")
+
+	// cfg := mysql.Config{
+	// 	User:   "root",
+	// 	Passwd: "",
+	// 	Net:    "tcp",
+	// 	Addr:   "127.0.0.1:3306",
+	// 	DBName: "packsDb",
+	// }
+	// Get a database handle.
 
 	router := gin.Default()
 	router.Use(CORSMiddleware())
 	router.POST("/place-order", placeOrder)
+	router.POST("/add-pack-size", addPackSize)
+
 	router.Run(":3000")
 }
