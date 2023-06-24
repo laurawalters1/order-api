@@ -14,14 +14,6 @@ type Order struct {
 	Count int32 `json:"count"`
 }
 
-func placeOrder(context *gin.Context) {
-	var order Order
-	context.BindJSON(&order)
-	var totals = calculatepacks.CalculatePacks(int(order.Count))
-
-	context.IndentedJSON(http.StatusOK, totals)
-}
-
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
@@ -58,6 +50,22 @@ func main() {
 		var packsize PackSize
 		context.BindJSON(&packsize)
 		db.Create(&packsize)
+	}
+
+	placeOrder := func(context *gin.Context) {
+		var packsizes []PackSize
+		db.Find(&packsizes)
+		// fmt.Println(packsizes[1].Size)
+		var sizeList []int
+		for _, size := range packsizes {
+			sizeList = append(sizeList, size.Size)
+
+		}
+		var order Order
+		context.BindJSON(&order)
+		var totals = calculatepacks.CalculatePacks(int(order.Count), sizeList)
+
+		context.IndentedJSON(http.StatusOK, totals)
 	}
 
 	// cfg := mysql.Config{

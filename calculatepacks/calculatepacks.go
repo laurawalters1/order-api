@@ -1,6 +1,7 @@
 package calculatepacks
 
 import (
+	"fmt"
 	"math"
 
 	"github.com/laurawalters1/order-api/utils"
@@ -64,17 +65,26 @@ func getOptimalSlice(arr [][]int) []int {
 	return returnVal
 }
 
-func CalculatePacks(count int) map[int]int {
-	order := map[int]int{
-		250: 0,
-		500:  0,
-		1000: 0,
-		2000: 0,
-		5000: 0,
+func CalculatePacks(count int, order []int) map[int]int {
+
+	fmt.Println(order)
+
+	var orderMap = make(map[int]int)
+	for _, size := range order {
+		orderMap[size] = 0
 	}
+	fmt.Println(orderMap)
+
+	// order := map[int]int{
+	// 	250:  0,
+	// 	500:  0,
+	// 	1000: 0,
+	// 	2000: 0,
+	// 	5000: 0,
+	// }
 
 	// PUT PACK SIZES IN ORDER
-	packSizes := utils.OrderPackSizes(order)
+	packSizes := utils.OrderPackSizes(orderMap)
 
 	reversePackSizes := utils.Reverse(packSizes)
 
@@ -90,8 +100,8 @@ func CalculatePacks(count int) map[int]int {
 	optimalSlice := getOptimalSlice(allCalculations)
 
 	for _, size := range optimalSlice {
-		order[size]++
+		orderMap[size]++
 	}
-	return order
+	return orderMap
 
 }
